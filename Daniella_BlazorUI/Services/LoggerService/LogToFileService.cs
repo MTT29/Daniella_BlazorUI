@@ -1,13 +1,6 @@
 ﻿namespace Daniella_BlazorUI.Services.LoggerService
 {
-    /*
-     * a fájnévtartalmazza a dátumot és vizsgáljuk meg hogy ha  a legrébbei fájl már létezik akkor ne kezdjünk újat de ha  már a dátum változott azóta akkor igen
-     *
-     *
-     *
-     *
-     *
-     */
+
     public enum LogLevel
     {
         Debug,
@@ -21,6 +14,7 @@
 
 
         private  string logFilePath;
+
 
         public LogToFileService()
         {

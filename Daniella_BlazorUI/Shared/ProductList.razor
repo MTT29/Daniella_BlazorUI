@@ -1,0 +1,47 @@
+﻿@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+
+
+@implements IDisposable
+
+<h3>ProductList</h3>
+@if (ProductService.Products != null || ProductService.Products.Count != 0)
+{
+    <ul>
+        @foreach (var id in ProductService.Products)
+        {
+        <li>
+            <div>
+                <h4 class="m-0">@id</h4>
+                <button class="btn btn-dark" @onclick="GetDetails(id)">
+                    Details
+                </button>
+            </div>
+        </li>
+        }
+    </ul>
+}
+
+
+
+
+
+
+
+
+  @for (int i = 1; i <= ProductService.PageCount  ; i++)
+    {
+        <a class="btn
+                    @(i==ProductService.CurrentPage ? "btn-info" : "btn-outline-info")
+            page-selection"
+            href="/search/@ProductService.Products.FirstOrDefault()/@i">@i</a>
+
+    }
+}
+
+@code {
+    public void GetDetails(string id)
+    {
+        NavigationManager.NavigateTo($"/product/{id}")
+    }
+}

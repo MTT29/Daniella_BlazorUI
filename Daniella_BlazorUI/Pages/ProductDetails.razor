@@ -1,0 +1,70 @@
+﻿@page "/product/{id:string}"
+@using  Daniella_BlazorUI.Models.Common
+
+@inject IProductService ProductService
+
+
+<h3>ProductDetails</h3>
+<h1>Edit Product Details</h1>
+
+@if (Product is not null)
+{
+
+    <EditForm Model="@Product" OnValidSubmit="PutForm(Daniella_BlazorUI.Models.Common.ProductDetails Product)">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="productId">Product ID:</label>
+            <InputText id="productId" @bind-Value="Product.ProductId" />
+    </div>
+
+    <div>
+        <label for="descriptionShort">Description Short (HU):</label>
+            <InputText id="descriptionShort" @bind-Value="Product.DescriptionShort" />
+    </div>
+
+    <div>
+        <label for="brandName">Brand Name:</label>
+        <InputText id="brandName" @bind-Value="Product.BrandName" />
+    </div>
+
+    <div>
+        <label for="supplierDescriptionShort">Supplier Description Short (HU):</label>
+        <InputText id="supplierDescriptionShort" @bind-Value="Product.SupplierDescriptionShort" />
+    </div>
+
+    <div>
+        <label for="classId">Class ID (ETIM):</label>
+        <InputText id="classId" @bind-Value="Product.ClassId" />
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</EditForm>
+}
+
+@code {
+    public  Daniella_BlazorUI.Models.Common.ProductDetails Product { get; set; }
+
+    public async void PutForm(Daniella_BlazorUI.Models.Common.ProductDetails product)
+    {
+      await   ProductService.UpdateProduct(product);
+    }
+    public string Message { get; set; } = "Loading Products";
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected async override void OnInitialized()
+    {
+        var result = await ProductService.GetProduct(Id);
+
+        Product = result;
+
+        }
+    }
+   
+
+}

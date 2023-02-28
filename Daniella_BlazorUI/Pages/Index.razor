@@ -1,9 +1,79 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@page "/search/{page:int}"
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+@inject IProductService ProductService
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Get Products</PageTitle>
+
+<EditForm Model="searchModel" OnValidSubmit="GetProducts">
+    <DataAnnotationsValidator />
+    <div>
+        <label for="productid">Product ID:</label>
+        <InputText class="form-control" id="productid" @bind-Value="searchModel.ProductId" @ref="productIdInput" />
+        <ValidationMessage For="@(() => searchModel.ProductId)" />
+    </div>
+
+    <div>
+        <label for="supplier">Supplier:</label>
+        <InputText class="form-control" id="supplier" @bind-Value="searchModel.Supplier" />
+        <ValidationMessage For="@(() => searchModel.Supplier)" />
+    </div>
+
+    <button class="btn btn-primary" type="submit" @onclick="GetProducts">Submit</button>
+</EditForm>
+
+@if (IsSubmitted && ProductService.Products.Count > 0)
+{
+    <ProductList />
+}
+
+
+
+
+
+
+@code {
+    private SearchModel searchModel = new SearchModel();
+
+
+    InputText productIdInput;
+
+    public int Page { get; set; } = 1;
+    public bool IsSubmitted { get; set; }
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            await productIdInput.Element.Value.FocusAsync();
+        }
+    }
+
+
+    public async void GetProducts()
+    {
+        IsSubmitted = true;
+
+        if (searchModel.ProductId != null || searchModel.Supplier != null)
+        {
+            await ProductService.GetProductIds(searchModel.ProductId, searchModel.Supplier, Page);
+            NavigationManager.NavigateTo($"search/1");
+        }
+
+    }
+
+
+    private class SearchModel
+    {
+        public string ProductId { get; set; }
+        public string Supplier { get; set; }
+    }
+}

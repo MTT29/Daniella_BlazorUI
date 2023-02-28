@@ -1,10 +1,12 @@
 global using Daniella_BlazorUI.Services.LoggerService;
+global using Daniella_BlazorUI.Services.ProductService;
+
+
 
 
 
 using Daniella_BlazorUI.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
 
 namespace Daniella_BlazorUI
 {
@@ -21,6 +23,8 @@ namespace Daniella_BlazorUI
 
             #region CustomServices
             builder.Services.AddScoped<ILogToFileService, LogToFileService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddMudServices();
 
 
             #endregion

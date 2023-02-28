@@ -1,0 +1,44 @@
+﻿@inject NavigationManager NavigationManager
+@*@inject IProductService ProductService*@
+
+
+
+@code {
+    private string productIdText ;
+    private string supplierText ;
+    private SearchModel searchModel = new SearchModel();
+
+  InputText productIdInput;
+
+     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //return base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await productIdInput.Element.Value.FocusAsync();
+        }
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+    private class SearchModel
+    {
+        public string ProductId { get; set; }
+        public string Supplier { get; set; }
+    }
+}
